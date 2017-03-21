@@ -1,0 +1,35 @@
+.single-range {
+    position: relative;
+
+    width: 250px;
+}
+
+.single-range__line {
+    height: 10px;
+    width: 250px;
+
+    background-color: #eee;
+    border-radius: 5px;
+}
+
+.single-range__btn {
+    position: absolute;
+    top: -7px;
+    left: -5px;
+
+    width: 10px;
+    height: 24px;
+
+    background-color: blue;
+    border-radius: 5px;
+}
+
+.single-range__btn:hover {
+    cursor: pointer;
+}
+
+input[data-for="single-range"] {
+    margin-top: 30px;
+
+    outline: none;
+}
