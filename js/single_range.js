@@ -13,6 +13,7 @@
         this._min = +range.getAttribute("data-min");
         this._max = +range.getAttribute("data-max");
         this._output = document.querySelector("input[data-for=single-range]");
+        this._value = this._min;
 
         /** @type {number} цена деления */
         this._divVal = this._line.getBoundingClientRect().width / (this._max - this._min);
@@ -21,7 +22,7 @@
 
         if (this._output !== null) {
             // установка значения по умолчанию при загрузке странице
-            this._output.value = this._min;
+            this._output.value = this._value;
 
             this._output.oninput = function() {
                 if (that._inputValidate()) {
@@ -31,7 +32,6 @@
         }
 
         this._btn.onmousedown = function() {
-
             document.onmousemove = function(event) {
                 var coordX = event.pageX - that._line.getBoundingClientRect().left;
                 that._moveAt(coordX, that._line.getBoundingClientRect().width);
@@ -103,6 +103,7 @@
     SingleRange.prototype._setBtnPosition = function(value) {
         var btnWidth = this._btn.getBoundingClientRect().width;
         this._btn.style.left = Math.floor((value - this._min) * this._divVal) - btnWidth / 2 + "px";
+        this._value = value;
     };
 
 
@@ -110,19 +111,30 @@
      * Вычисление значения относительно положения ползунка
      * @private
      */
-    SingleRange.prototype._setValue = function () {
+    SingleRange.prototype._setValue = function() {
         var btnLeft = this._btn.getBoundingClientRect().left;
         var btnWidth = this._btn.getBoundingClientRect().width;
         var lineLeft = this._line.getBoundingClientRect().left;
         var coordCenter = btnLeft - lineLeft + btnWidth / 2;
-        var value = this._min + Math.floor(coordCenter / this._divVal);
+
+        this._value = this._min + Math.floor(coordCenter / this._divVal);
 
         if (this._output === null) {
-            console.log(value);
+            console.log(this._value);
         } else {
-            this._output.value = value;
+            this._output.value = this._value;
         }
     };
+
+
+    /**
+     * @returns {string}
+     */
+    SingleRange.prototype.getValue = function() {
+        return this._value;
+    };
+
+
 
     window.SingleRange = SingleRange;
 
